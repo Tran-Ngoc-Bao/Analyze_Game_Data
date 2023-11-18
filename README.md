@@ -48,6 +48,9 @@
     <th>Link hướng dẫn (tham khảo)</th>
   </tr>
   <tr>
+    <td>BeatifulSoup4</td>
+    <td>https://linux.how2shout.com/how-to-install-beautifulsoup-python-module-in-ubuntu-linux/</td>
+  </tr>
     <td>VirtualBox: 1 máy ảo ubuntu 14 (master) <br> (Sau khi tải xong hết sẽ clone tạo 2 máy slave)</td>
     <td>https://www.youtube.com/watch?v=ngJQPt-xEeo&t=560s</td>
   </tr>
@@ -79,11 +82,12 @@
 
 ## Hướng dẫn sử dụng 
 <ul>
+  <li>Thu thập dữ liệu trên: <br> App store (https://apps.apple.com/vn/genre/ios-tr%C3%B2-ch%C6%A1i/id6014?l=vi) <br> Google play (https://play.google.com/store/games?device=phone&hl=vi-VN) <br> Bằng BeautifulSoup4</li>
   <li>Cài đặt hệ thống như trên</li>
   <li>Tạo mạng kết nối giữa các máy ảo nhờ VirtualBox và ssh server</li>
-  <li>Đẩy dữ liệu từ phần data vào hadoop</li>
+  <li>Đẩy dữ liệu từ phần data vào hdfs của hadoop</li>
   <li>Chạy các đoạn code trong phần source_code nhờ pyspark</li>
-  <li>Biểu diễn dữ liệu một cách trực quan bằng kibana</li>
+  <li>Biểu diễn dữ liệu một cách trực quan bằng elasticsearch, kibana</li>
 </ul>
 
 ## Báo cáo bài tập lớn
