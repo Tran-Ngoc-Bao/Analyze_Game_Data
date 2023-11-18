@@ -9,7 +9,7 @@
 <tr>
   <td>Trần Ngọc Bảo (Trưởng nhóm)</td>
   <td>20215529</td>
-  <td>Triền khai hệ thống</td>
+  <td>Triền khai hệ thống, <br> Lưu trữ và xử lý dữ liệu</td>
 </tr>
 <tr>
   <td>Vũ Hồng Phước</td>
@@ -24,12 +24,12 @@
 <tr>
   <td>Hà Duy Long</td>
   <td>20204841</td>
-  <td>Phân tích dữ liệu</td>
+  <td>Viết báo cáo</td>
 </tr>
 <tr>
   <td>Trần Bách Lưu Đức</td>
   <td>20200180</td>
-  <td>Phân tích dữ liệu</td>
+  <td>Viết báo cáo</td>
 </tr>
 </table>
 
@@ -73,7 +73,7 @@
   </tr>
   <tr>
     <td>kibana <br> (sau khi tải xong sẽ clone tạo 2 máy slave)</td>
-    <td></td>
+    <td>https://www.unixmen.com/install-kibana-ubuntu-14-04/#google_vignette</td>
   </tr>
 </table>
 
