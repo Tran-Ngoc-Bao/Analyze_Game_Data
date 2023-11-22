@@ -42,43 +42,7 @@
 </ul>
 
 ## Cài đặt hệ thống
-<table>
-  <tr>
-    <th>Các phần mềm cần cài đặt</th>
-    <th>Link hướng dẫn (tham khảo)</th>
-  </tr>
-  <tr>
-    <td>BeatifulSoup4</td>
-    <td>https://linux.how2shout.com/how-to-install-beautifulsoup-python-module-in-ubuntu-linux/</td>
-  </tr>
-    <td>VirtualBox: 1 máy ảo ubuntu 14 (master) <br> (Sau khi tải xong hết sẽ clone tạo 2 máy slave)</td>
-    <td>https://www.youtube.com/watch?v=ngJQPt-xEeo&t=560s</td>
-  </tr>
-  <tr>
-    <td>java 8 cho ubuntu 14</td>
-    <td>https://askubuntu.com/questions/464755/how-to-install-openjdk-8-on-14-04-lts</td>
-  </tr>
-  <tr>
-    <td>openssh-server</td>
-    <td></td>
-  </tr>
-  <tr>
-    <td>hadoop cluster</td>
-    <td>https://viblo.asia/p/cung-thiet-lap-multi-node-cluster-trong-hadoop-2x-nao-5pPLkxXdVRZ</td>
-  </tr>
-  <tr>
-    <td>spark cluster</td>
-    <td>https://www.youtube.com/watch?v=9UpnWyy1M34&t=602s</td>
-  </tr>
-  <tr>
-    <td>elasticsearch cluster</td>
-    <td>https://123host.vn/tailieu/kb/dedicated-server/huong-dan-cai-dat-elasticsearch-cluster-tren-ubuntu-20-04.html</td>
-  </tr>
-  <tr>
-    <td>kibana <br> (sau khi tải xong sẽ clone tạo 2 máy slave)</td>
-    <td>https://www.unixmen.com/install-kibana-ubuntu-14-04/#google_vignette</td>
-  </tr>
-</table>
+
 
 ## Hướng dẫn sử dụng 
 <ul>
