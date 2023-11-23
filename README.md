@@ -45,7 +45,7 @@
 <ul>
   <li>Cài đặt <strong>BeutifulSoup4</strong></li>
   <li>Cài đặt <strong>VirtualBox</strong> <br>&emsp;Sau đó tạo 1 máy ảo ubuntu đóng vai trò là namenode, master</li>
-  <li>Cài đặt <strong>hadoop, spark, elasticsearch, kibana</strong> trên máy ảo <br>&emsp;Các file config có trong folder config ở trên</li>
+  <li>Cài đặt <strong>hadoop, spark, elasticsearch, kibana</strong> trên máy ảo</li>
   <li>Clone máy ảo tạo 2 máy ảo khác, mỗi máy sẽ đóng vai trò là datanode, worker</li>
 </ul>
 
