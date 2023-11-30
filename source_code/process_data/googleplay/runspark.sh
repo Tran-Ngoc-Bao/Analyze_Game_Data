@@ -1,0 +1,1 @@
+/opt/spark/bin/spark-submit --master spark://master:7077 Documents/BigData/googleplay/main.py
