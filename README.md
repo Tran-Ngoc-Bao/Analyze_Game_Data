@@ -36,7 +36,7 @@
 ## Giới thiệu bài tập lớn
 <ul>
   <li>Tên đề tài: Lưu trữ và xử lý dữ liệu trò chơi điện tử trên điện thoại và máy tính bảng từ App store và Google play </li>
-  <li>Thu thập dữ liệu từ <strong>300 game trên Google play và 100 game trên App store</strong></li>
+  <li>Thu thập dữ liệu game trên Google play và App store <strong> hàng tuần</strong></li>
   <li>Lưu trữ, phân tích, xử lí dữ liệu thu được</li>
   <li>Biểu diễn kết quả thu được dưới dạng các biểu đồ</li>
 </ul>
