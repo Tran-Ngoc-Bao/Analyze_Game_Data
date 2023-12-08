@@ -2,14 +2,9 @@ from bs4 import BeautifulSoup
 import json
 import requests
 
-soup = BeautifulSoup (open("phone.html", encoding = "utf8"), features = "lxml")
+soup = BeautifulSoup (open("games.html", encoding = "utf8"), features = "lxml")
 listA = soup.find_all('a', class_ = 'Si6A0c')
 listLink = []
-for i in range(len(listA)):
-    listLink.append(listA[i].get('href'))
-
-soup = BeautifulSoup (open("tablet.html", encoding = "utf8"), features = "lxml")
-listA = soup.find_all('a', class_ = 'Si6A0c')
 for i in range(len(listA)):
     listLink.append(listA[i].get('href'))
 
@@ -38,17 +33,17 @@ def crawlContents(fileName, i):
         name = soup.find_all('h1')
         company = soup.find_all(class_ = 'Vbfug')
         ratingAndDownloads = soup.find_all(class_ = 'ClM7O')
-        reviewsAndAge = soup.find_all(class_ = 'g1rdde')
+        reviews = soup.find_all(class_ = 'g1rdde')
         descirbe = soup.find_all(class_ = 'Uc6QCc')
         
         data = {}
 
+        data['link'] = listLink[j]
         data['name'] = name[0].text
         data['company'] = company[0].text
         data['rating'] = ratingAndDownloads[0].text
         data['downloads'] = ratingAndDownloads[1].text
-        data['reviews'] = reviewsAndAge[0].text
-        data['age'] = reviewsAndAge[2].text
+        data['reviews'] = reviews[0].text
         data['describe'] = descirbe[0].text
 
         writeFile(fileName, data, deli)
@@ -57,6 +52,6 @@ def crawlContents(fileName, i):
     setupFile(fileName, True)
 
 if __name__ == "__main__":
-    for i in range(93):
-        fileName = "googleplay" + str(i * 10) + "_" + str(i * 10 + 9) + ".json"
+    for i in range(69):
+        fileName = "googleplay_" + str(i * 10) + "_" + str(i * 10 + 9) + ".json"
         crawlContents(fileName, i)
