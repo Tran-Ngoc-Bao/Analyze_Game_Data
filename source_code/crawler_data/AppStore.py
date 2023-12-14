@@ -49,6 +49,8 @@ def crawlContents(fileName, start, end):
         data = {}
         data['link'] = listLink[i]
         data['nameAndAge'] = nameAndAge[0].text
+        if len(company) == 0:
+            continue
         data['company'] = company[0].text
         data['ranking'] = raking[0].text
 
