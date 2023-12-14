@@ -23,21 +23,23 @@ if __name__ == "__main__":
 	sc = SparkContext("spark://10.0.2.15:7077", "ExtractDataGooglePlay")
 	spark = SparkSession(sc)
     
-	raw_game_df = spark.read.schema(schema).option("multiline", "true").json("hdfs://namenode:9000/raw_data/google_play/December_2023_4_10/*")
+	# raw_data_df = spark.read.schema(schema).option("multiline", "true").json("hdfs://namenode:9000/raw_data/google_play/December_2023_4_10/*")
+	raw_data_df = spark.read.schema(schema).option("multiline", "true").json("hdfs://namenode:9000/raw_data/google_play/December_2023_11_17/*")
 
-	extracted_game_df = raw_game_df.select(
-		raw_game_df['link'].alias("Link"),
+	extracted_data_df = raw_data_df.select(
+		raw_data_df['link'].alias("Link"),
         extract.extract_alpha_numeric("name").alias("GameName"),
 		extract.extract_alpha_numeric("company").alias("CompanyName"),
-		raw_game_df['rating'].alias("Rating"),
+		raw_data_df['rating'].alias("Rating"),
 		extract.extract_downloads("downloads").alias("Downloads"),
 		extract.extract_reviews("reviews").alias("Reviews"),
-        raw_game_df['age'].alias("AgeLimit"),
-		raw_game_df['describe'].alias("Describe"),
-		raw_game_df['lastVersion'].alias("LastVersion"),
+        raw_data_df['age'].alias("AgeLimit"),
+		raw_data_df['describe'].alias("Describe"),
+		raw_data_df['lastVersion'].alias("LastVersion"),
 		extract.extract_ranking("classify").alias("Raking"),
 		extract.extract_classify("classify").alias("Classify"),
-        raw_game_df['privacy'].alias("LinkPrivacy")
+        raw_data_df['privacy'].alias("LinkPrivacy")
         )
 	
-    # extracted_game_df.write.json("hdfs://namenode:9000/extracted_data/google_play/December_2023_4_10.json")
+    # extracted_data_df.write.json("hdfs://namenode:9000/extracted_data/google_play/December_2023_4_10")
+	extracted_data_df.write.json("hdfs://namenode:9000/extracted_data/google_play/December_2023_11_17")
