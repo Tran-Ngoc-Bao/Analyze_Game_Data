@@ -20,7 +20,7 @@ schema = StructType([
     ])
 
 if __name__ == "__main__":
-	sc = SparkContext("spark://10.0.2.15:7077", "ExtractDataGooglePlay")
+	sc = SparkContext("spark://10.0.2.15:7077", "ProcessDataGooglePlay")
 	spark = SparkSession(sc)
 	
 	date = "/December_2023_18_24"
@@ -58,7 +58,7 @@ if __name__ == "__main__":
 	df_count_classify = query.get_count_classify(df_distinct)
 
 	# Save some queried dataframes to hdfs
-	path = "hdfs:/namenode:9000/queried_data/google_play" + date
+	path = "hdfs://namenode:9000/queried_data/google_play" + date
 
 	df_count_company.write.json(path + "/count_company")
 	df_order_downloads_game.write.json(path + "/order_downloads_game")

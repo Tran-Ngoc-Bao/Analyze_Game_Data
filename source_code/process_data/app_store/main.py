@@ -32,7 +32,7 @@ if __name__ == "__main__":
 	extracted_data_df = raw_data_df.select(
 		raw_data_df['link'].alias("Link"),
         extract.extract_alpha("nameAndAge").alias("GameName"),
-        extract.extract_numeric("nameAndAge").alias("AgeLimit"),
+        extract.extract_ageLimit("nameAndAge").alias("AgeLimit"),
         extract.extract_alpha_numeric("company").alias("CompanyName"),
 		extract.extract_alpha_numeric("ranking").alias("Raking"),
 		extract.extract_classify("ranking").alias("Classify"),

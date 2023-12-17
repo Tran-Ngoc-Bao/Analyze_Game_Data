@@ -38,23 +38,23 @@ def get_df_distinct(df):
     return df.distinct()
 
 def get_count_ageLimit(df):
-    return df.groupBy("AgeLimit").select("AgeLimit", count("GameName").alias("Games"))
+    return df.groupBy("AgeLimit").agg(count("GameName").alias("Games"))
 
 def get_count_company(df):
     return df.select(countDistinct("CompanyName").alias("Companies"))
 
 def get_count_classify(df):
-    return df.groupBy("Classify").select("Classify", count("GameName").alias("Games"))
+    return df.groupBy("Classify").agg(count("GameName").alias("Games"))
 
 def get_order_reviews_game(df):
-    return df.where("Reviews >= 1000000").select("GameName", "Reviews")
+    return df.where("Reviews >= 500000").select("GameName", "Reviews")
 
 def get_oder_reviews_company(df):
-    df_tmp = df.groupBy("Companyname").select("CompanyName", sum("Reviews").alias("Reviews"))
-    return df_tmp.where("Reviews >= 5000000")
+    df_tmp = df.groupBy("Companyname").agg(sum("Reviews").alias("Reviews"))
+    return df_tmp.where("Reviews >= 2500000")
 
 def get_count_price(df):
-    return df.groupBy("Price").select("Price", count("GameName").alias("Games"))
+    return df.groupBy("Price").agg(count("GameName").alias("Games"))
 
 def get_count_size(df):
-    return df.groupBy("Size").select("Size", count("GameName").alias("Games"))
+    return df.groupBy("Size").agg(count("GameName").alias("Games"))
