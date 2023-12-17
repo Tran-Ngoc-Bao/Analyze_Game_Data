@@ -26,6 +26,14 @@ def extract_alpha_numeric(str):
 	return result
 
 @udf(returnType = StringType())
+def extract_ageLimit(nameAndAge):
+	result = ""
+	for char in nameAndAge[(len(nameAndAge) - 5):]:
+		if (char.isnumeric()):
+			result += char
+	return result
+
+@udf(returnType = StringType())
 def extract_classify(ranking):
 	result = ""
 	for char in ranking:
