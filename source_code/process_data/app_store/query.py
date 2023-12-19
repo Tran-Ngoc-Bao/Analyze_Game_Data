@@ -47,11 +47,11 @@ def get_count_classify(df):
     return df.groupBy("Classify").agg(count("GameName").alias("Games"))
 
 def get_order_reviews_game(df):
-    return df.where("Reviews >= 500000").select("GameName", "Reviews")
+    return df.where("Reviews >= 200000").select("GameName", "Reviews")
 
 def get_oder_reviews_company(df):
     df_tmp = df.groupBy("Companyname").agg(sum("Reviews").alias("Reviews"))
-    return df_tmp.where("Reviews >= 2500000")
+    return df_tmp.where("Reviews >= 400000")
 
 def get_count_price(df):
     return df.groupBy("Price").agg(count("GameName").alias("Games"))
