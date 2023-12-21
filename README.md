@@ -63,5 +63,5 @@
 ## Báo cáo bài tập lớn
 <ul>
   <li><a href="https://github.com/Tran-Ngoc-Bao/AnalyzeGameData/blob/master/report/report.pdf">Báo cáo</a></li>
-  <li><a href="">Slides</a></li>
+  <li><a href="https://github.com/Tran-Ngoc-Bao/AnalyzeGameData/blob/master/report/slide.pptx">Slide</a></li>
 </ul>
