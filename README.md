@@ -44,7 +44,7 @@
 ## Cài đặt hệ thống
 <ul>
   <li>Cài đặt <strong>VirtualBox</strong> <br>&emsp;Sau đó tạo 1 máy ảo ubuntu đóng vai trò là namenode (master)</li>
-  <li>Cài đặt <strong>BeutifulSoup4, ssh-server, jdk-8</strong></li>
+  <li>Cài đặt <strong>BeautifulSoup4, ssh-server, jdk-8</strong></li>
   <li>Cài đặt <strong>hadoop, spark, elasticsearch, kibana</strong> trên máy ảo</li>
   <li>Clone máy ảo tạo 2 máy ảo khác, đồng thời cấu hình lại, mỗi máy sẽ đóng vai trò là datanode (worker)</li>
 </ul>
@@ -59,6 +59,31 @@
   <li>Biểu diễn dữ liệu một cách trực quan bằng <strong>kibana</strong></li>
   <li>XEM CHI TIẾT TRONG BÁO CÁO BÀI TẬP LỚN</li>
 </ul>
+
+## Demo hệ thống
+### Luồng hệ thống:
+  <img src="https://github.com/Tran-Ngoc-Bao/AnalyzeGameData/blob/master/report/system-flow.png">
+  
+### Crawler dữ liệu bằng BeautifulSoup4:
+  <img src="https://github.com/Tran-Ngoc-Bao/AnalyzeGameData/blob/master/report/screen-shots/3.2.png">
+  <img src="https://github.com/Tran-Ngoc-Bao/AnalyzeGameData/blob/master/report/screen-shots/3.3.png">
+  
+### Lưu trữ dữ liệu trên HDFS:
+  <img src="https://github.com/Tran-Ngoc-Bao/AnalyzeGameData/blob/master/report/screen-shots/3.5.png">
+  <img src="https://github.com/Tran-Ngoc-Bao/AnalyzeGameData/blob/master/report/screen-shots/3.6.png">
+  
+### Xử lý dữ liệu trên Spark:
+  <img src="https://github.com/Tran-Ngoc-Bao/AnalyzeGameData/blob/master/report/screen-shots/3.10.png">
+  <img src="https://github.com/Tran-Ngoc-Bao/AnalyzeGameData/blob/master/report/screen-shots/3.10sub.png">
+
+### Lưu trữ dữ liệu trên Elasticsearch:
+  <img src="https://github.com/Tran-Ngoc-Bao/AnalyzeGameData/blob/master/report/screen-shots/3.11.png">
+
+### Trực quan hóa dữ liệu bằng Kibana:
+  <div style="display:flex">
+    <img style="width:49%" src="https://github.com/Tran-Ngoc-Bao/AnalyzeGameData/blob/master/report/screen-shots/3.17.png">
+    <img style="width:49%" src="https://github.com/Tran-Ngoc-Bao/AnalyzeGameData/blob/master/report/screen-shots/3.15.png">
+  </div>
 
 ## Báo cáo bài tập lớn
 <ul>
