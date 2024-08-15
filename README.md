@@ -41,18 +41,21 @@
   <li>Biểu diễn kết quả thu được dưới dạng các biểu đồ</li>
 </ul>
 
-## Cài đặt hệ thống
+## Cài đặt hệ thống bằng máy ảo
 <ul>
   <li>Cài đặt <strong>VirtualBox</strong> <br>&emsp;Sau đó tạo 1 máy ảo ubuntu đóng vai trò là namenode (master)</li>
   <li>Cài đặt <strong>BeautifulSoup4, ssh-server, jdk-8</strong></li>
   <li>Cài đặt <strong>hadoop, spark, elasticsearch, kibana</strong> trên máy ảo</li>
   <li>Clone máy ảo tạo 2 máy ảo khác, đồng thời cấu hình lại, mỗi máy sẽ đóng vai trò là datanode (worker)</li>
+  <li>Tạo mạng kết nối giữa các máy ảo nhờ <strong>VirtualBox và ssh-server</strong></li>
 </ul>
+
+## Cài đặt hệ thống bằng Docker
+
 
 ## Hướng dẫn sử dụng 
 <ul>
-  <li>Thu thập dữ liệu phân tán, đa luồng trên các máy ảo bằng <strong>BeautifulSoup4</strong> từ: <br>&emsp;App store (https://apps.apple.com/vn/genre/ios-tr%C3%B2-ch%C6%A1i/id6014?l=vi) <br>&emsp;Google play (https://play.google.com/store/games?device=phone&hl=vi-VN)</li>
-  <li>Tạo mạng kết nối giữa các máy ảo nhờ <strong>VirtualBox và ssh-server</strong></li>
+  <li>Thu thập dữ liệu phân tán, đa luồng trên các máy bằng <strong>BeautifulSoup4</strong> từ: <br>&emsp;App store (https://apps.apple.com/vn/genre/ios-tr%C3%B2-ch%C6%A1i/id6014?l=vi) <br>&emsp;Google play (https://play.google.com/store/games?device=phone&hl=vi-VN)</li>
   <li>Đẩy dữ liệu thu thập được vào <strong>hdfs của hadoop</strong></li>
   <li>Chạy các đoạn code trong phần source_code nhờ <strong>pyspark</strong> để phân tích, xử lí dữ liệu</li>
   <li>Đẩy dữ liệu đã được lọc lên <strong>elasticsearch</strong></li>
@@ -64,22 +67,13 @@
 ### Luồng hệ thống:
   <img src="https://github.com/Tran-Ngoc-Bao/AnalyzeGameData/blob/master/report/system-flow.png">
   
-### Crawler dữ liệu bằng BeautifulSoup4:
-  <img src="https://github.com/Tran-Ngoc-Bao/AnalyzeGameData/blob/master/report/screen-shots/3.2.png">
-  <img src="https://github.com/Tran-Ngoc-Bao/AnalyzeGameData/blob/master/report/screen-shots/3.3.png">
-  
-### Lưu trữ dữ liệu trên HDFS:
-  <img src="https://github.com/Tran-Ngoc-Bao/AnalyzeGameData/blob/master/report/screen-shots/3.5.png">
-  <img src="https://github.com/Tran-Ngoc-Bao/AnalyzeGameData/blob/master/report/screen-shots/3.6.png">
-  
-### Xử lý dữ liệu trên Spark:
-  <img src="https://github.com/Tran-Ngoc-Bao/AnalyzeGameData/blob/master/report/screen-shots/3.10.png">
-  <img src="https://github.com/Tran-Ngoc-Bao/AnalyzeGameData/blob/master/report/screen-shots/3.10sub.png">
+### Xây dựng hệ thống bằng máy ảo:
+  <img src="https://github.com/Tran-Ngoc-Bao/AnalyzeGameData/blob/master/report/VirtualMachine.png">
 
-### Lưu trữ dữ liệu trên Elasticsearch:
-  <img src="https://github.com/Tran-Ngoc-Bao/AnalyzeGameData/blob/master/report/screen-shots/3.11.png">
+### Xây dựng hệ thống bằng Docker:
 
-### Trực quan hóa dữ liệu bằng Kibana:
+
+### Một số kết quả thu được:
   <div style="display:flex">
     <img style="width:49%" src="https://github.com/Tran-Ngoc-Bao/AnalyzeGameData/blob/master/report/screen-shots/3.17.png">
     <img style="width:49%" src="https://github.com/Tran-Ngoc-Bao/AnalyzeGameData/blob/master/report/screen-shots/3.15.png">
