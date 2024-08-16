@@ -48,14 +48,7 @@
   <li>Cài đặt <strong>hadoop, spark, elasticsearch, kibana</strong> trên máy ảo</li>
   <li>Clone máy ảo tạo 2 máy ảo khác, đồng thời cấu hình lại, mỗi máy sẽ đóng vai trò là datanode (worker)</li>
   <li>Tạo mạng kết nối giữa các máy ảo nhờ <strong>VirtualBox và ssh-server</strong></li>
-</ul>
-
-## Cài đặt hệ thống bằng Docker
-
-
-## Hướng dẫn sử dụng 
-<ul>
-  <li>Thu thập dữ liệu phân tán, đa luồng trên các máy bằng <strong>BeautifulSoup4</strong> từ: <br>&emsp;App store (https://apps.apple.com/vn/genre/ios-tr%C3%B2-ch%C6%A1i/id6014?l=vi) <br>&emsp;Google play (https://play.google.com/store/games?device=phone&hl=vi-VN)</li>
+  <li>Thu thập dữ liệu phân tán, đa luồng trên các máy ảo bằng <strong>BeautifulSoup4</strong> từ: <br>&emsp;App store (https://apps.apple.com/vn/genre/ios-tr%C3%B2-ch%C6%A1i/id6014?l=vi) <br>&emsp;Google play (https://play.google.com/store/games?device=phone&hl=vi-VN)</li>
   <li>Đẩy dữ liệu thu thập được vào <strong>hdfs của hadoop</strong></li>
   <li>Chạy các đoạn code trong phần source_code nhờ <strong>pyspark</strong> để phân tích, xử lí dữ liệu</li>
   <li>Đẩy dữ liệu đã được lọc lên <strong>elasticsearch</strong></li>
@@ -63,21 +56,30 @@
   <li>XEM CHI TIẾT TRONG BÁO CÁO BÀI TẬP LỚN</li>
 </ul>
 
+## Cài đặt hệ thống bằng Docker (Phát triển)
+
+
 ## Demo hệ thống
-### Luồng hệ thống:
+### Luồng hệ thống sử dụng máy ảo
   <img src="https://github.com/Tran-Ngoc-Bao/AnalyzeGameData/blob/master/report/system-flow.png">
   
-### Xây dựng hệ thống bằng máy ảo:
+### Sơ đồ hệ thống sử dụng máy ảo
   <img src="https://github.com/Tran-Ngoc-Bao/AnalyzeGameData/blob/master/report/VirtualMachine.png">
 
-### Xây dựng hệ thống bằng Docker:
+### Luồng hệ thống sử dụng Docker (Phát triển)
 
 
-### Một số kết quả thu được:
+### Sơ đồ hệ thống sử dụng Docker (Phát triển)
+
+
+### Một số kết quả thu được trên máy ảo
   <div style="display:flex">
     <img style="width:49%" src="https://github.com/Tran-Ngoc-Bao/AnalyzeGameData/blob/master/report/screen-shots/3.17.png">
     <img style="width:49%" src="https://github.com/Tran-Ngoc-Bao/AnalyzeGameData/blob/master/report/screen-shots/3.15.png">
   </div>
+
+### Một số kết quả thu được trên Docker (Phát triển)
+
 
 ## Báo cáo bài tập lớn
 <ul>
