@@ -1,0 +1,202 @@
+version: '3'
+
+services:
+  # Airflow cluster
+  redis:
+    image: redis
+    container_name: redis
+    networks:
+      game_data_net:
+    volumes:
+      - redis:/data
+
+  postgres:
+    image: postgres
+    container_name: postgres
+    environment:
+      - POSTGRES_USER=airflow
+      - POSTGRES_PASSWORD=airflow
+      - POSTGRES_DB=airflow
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    networks:
+      game_data_net:
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+          
+  airflow-webserver:
+    image: puckel/docker-airflow:1.10.9
+    container_name: airflow-webserver
+    depends_on:
+      - postgres
+    environment:
+      - LOAD_EX=n
+      - FERNET_KEY=46BKJoQYlPPOexq0OhDZnIlNepKFf87WFwLbfzqDDho=
+      - EXECUTOR=Celery
+    healthcheck:
+      test: ["CMD-SHELL", "[ -f /usr/local/airflow/airflow-webserver.pid ]"]
+      interval: 30s
+      timeout: 30s
+      retries: 3
+    ports:
+      - "8282:8080"
+    restart: always
+    networks:
+      game_data_net:
+    volumes:
+      - ./airflow_dags:/usr/local/airflow/dags
+    command: webserver
+
+  airflow-scheduler:
+    image: puckel/docker-airflow:1.10.9
+    container_name: airflow-scheduler
+    depends_on:
+      - airflow-webserver
+    environment:
+      - LOAD_EX=n
+      - FERNET_KEY=46BKJoQYlPPOexq0OhDZnIlNepKFf87WFwLbfzqDDho=
+      - EXECUTOR=Celery
+    restart: always
+    networks:
+      game_data_net:
+    volumes:
+      - ./airflow_dags:/usr/local/airflow/dags      
+    command: scheduler
+
+  airflow-worker:
+    image: puckel/docker-airflow:1.10.9
+    container_name: airflow-worker
+    depends_on:
+      - airflow-scheduler
+    environment:
+      - FERNET_KEY=46BKJoQYlPPOexq0OhDZnIlNepKFf87WFwLbfzqDDho=
+      - EXECUTOR=Celery
+    restart: always
+    networks:
+      game_data_net:
+    volumes:
+      - ./airflow_dags:/usr/local/airflow/dags
+    command: worker
+
+  # HDFS cluster
+  namenode:
+    image: bde2020/hadoop-namenode:2.0.0-hadoop3.2.1-java8
+    container_name: namenode
+    ports:
+      - 9870:9870
+      - 9000:9000
+    environment:
+      - CLUSTER_NAME=test
+    env_file:
+      - ./hadoop/hadoop.env
+    restart: always
+    networks:
+      game_data_net:
+    volumes:
+      - hadoop_home:/home
+      - hadoop_namenode:/hadoop/dfs/name
+
+  datanode:
+    image: bde2020/hadoop-datanode:2.0.0-hadoop3.2.1-java8
+    container_name: datanode
+    environment:
+      SERVICE_PRECONDITION: "namenode:9870"
+    env_file:
+      - ./hadoop/hadoop.env
+    restart: always
+    networks:
+      game_data_net:
+    volumes:
+      - hadoop_datanode:/hadoop/dfs/data
+
+  # Hive cluster
+  hive-server:
+    image: bde2020/hive:2.3.2-postgresql-metastore
+    container_name: hive-server
+    depends_on:
+      - namenode
+      - datanode
+    environment:
+      HIVE_CORE_CONF_javax_jdo_option_ConnectionURL: "jdbc:postgresql://hive-metastore/metastore"
+      SERVICE_PRECONDITION: "hive-metastore:9083"
+    env_file:
+      - ./hadoop/hadoop-hive.env
+    ports:
+      - 10000:10000
+    networks:
+      game_data_net:
+
+  hive-metastore:
+    image: bde2020/hive:2.3.2-postgresql-metastore
+    container_name: hive-metastore
+    environment:
+      SERVICE_PRECONDITION: "namenode:9870 hive-metastore-postgresql:5432"
+    env_file:
+      - ./hadoop/hadoop-hive.env
+    ports:
+      - 9083:9083
+    networks:
+      game_data_net:
+    command: /opt/hive/bin/hive --service metastore
+
+  hive-metastore-postgresql:
+    image: bde2020/hive-metastore-postgresql:2.3.0
+    container_name: hive-metastore-postgresql
+    networks:
+      game_data_net:
+
+  # Spark cluster
+  spark-master:
+    image: bitnami/spark
+    container_name: spark-master
+    environment:
+      - SPARK_MODE=master
+      - SPARK_RPC_AUTHENTICATION_ENABLED=no
+      - SPARK_RPC_ENCRYPTION_ENABLED=no
+      - SPARK_LOCAL_STORAGE_ENCRYPTION_ENABLED=no
+      - SPARK_SSL_ENABLED=no
+      - SPARK_USER=spark
+    ports:
+      - 8080:8080
+    networks:
+      game_data_net:
+      
+  spark-worker:
+    image: bitnami/spark
+    container_name: spark-worker
+    environment:
+      - SPARK_MODE=worker
+      - SPARK_MASTER_URL=spark://spark-master:7077
+      - SPARK_WORKER_MEMORY=1G
+      - SPARK_WORKER_CORES=1
+      - SPARK_RPC_AUTHENTICATION_ENABLED=no
+      - SPARK_RPC_ENCRYPTION_ENABLED=no
+      - SPARK_LOCAL_STORAGE_ENCRYPTION_ENABLED=no
+      - SPARK_SSL_ENABLED=no
+      - SPARK_USER=spark
+    networks:
+      game_data_net:
+
+  superset:
+    build: ./superset
+    container_name: superset
+    environment:
+      - SUPERSET_SECRET_KEY=secret
+    ports:
+      - 8088:8088
+    networks:
+      game_data_net:
+    volumes:
+      - superset_data:/app/superset_home
+
+
+networks:
+  game_data_net:
+
+
+volumes:
+  redis:
+  postgres_data:
+  superset_data:
+  hadoop_home:
+  hadoop_namenode:
+  hadoop_datanode:

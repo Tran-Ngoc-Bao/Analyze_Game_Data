@@ -13,10 +13,10 @@
 </ul>
 
 ## Data lake architecture
-  <img src="https://github.com/Tran-Ngoc-Bao/AnalyzeGameData/blob/master/report/NewVersion/DataLake.jpg">
+  <img src="https://github.com/Tran-Ngoc-Bao/AnalyzeGameData/blob/master/pictures/design/DataLake.jpg">
 
 ## Data flow
-  <img src="https://github.com/Tran-Ngoc-Bao/AnalyzeGameData/blob/master/report/NewVersion/DataFlow.png">
+  <img src="https://github.com/Tran-Ngoc-Bao/AnalyzeGameData/blob/master/pictures/design/DataFlow.png">
 
 ## Deploy system
 
@@ -26,9 +26,9 @@
 
 ## Old version
 <ul>
-  <li><a href="https://github.com/Tran-Ngoc-Bao/AnalyzeGameData/blob/master/report/OldVersion/report.pdf">Report</a></li>
-  <li><a href="https://github.com/Tran-Ngoc-Bao/AnalyzeGameData/blob/master/report/OldVersion/slide.pptx">Slide</a></li>
-  <li><a href="https://github.com/Tran-Ngoc-Bao/AnalyzeGameData/blob/master/report/OldVersion/system-flow.png">Data flow</a></li>
-  <li><a href="https://github.com/Tran-Ngoc-Bao/AnalyzeGameData/blob/master/report/OldVersion/VirtualMachine.png">System architecture</a></li>
-  <li><a href="https://github.com/Tran-Ngoc-Bao/AnalyzeGameData/blob/master/report/OldVersion/screen-shots/">Output</a></li>
+  <li><a href="https://github.com/Tran-Ngoc-Bao/AnalyzeGameData/blob/master/old_version/report/report.pdf">Report</a></li>
+  <li><a href="https://github.com/Tran-Ngoc-Bao/AnalyzeGameData/blob/master/old_version/report/slide.pptx">Slide</a></li>
+  <li><a href="https://github.com/Tran-Ngoc-Bao/AnalyzeGameData/blob/master/old_version/report/system-flow.png">Data flow</a></li>
+  <li><a href="https://github.com/Tran-Ngoc-Bao/AnalyzeGameData/blob/master/old_version/report/VirtualMachine.png">System architecture</a></li>
+  <li><a href="https://github.com/Tran-Ngoc-Bao/AnalyzeGameData/blob/master/old_version/report/screen-shots/">Output</a></li>
 </ul>
