@@ -13,7 +13,7 @@
 </ul>
 
 ## Data lake architecture
-  <img src="https://github.com/Tran-Ngoc-Bao/AnalyzeGameData/blob/master/report/NewVersion/DataLake.png">
+  <img src="https://github.com/Tran-Ngoc-Bao/AnalyzeGameData/blob/master/report/NewVersion/DataLake.jpg">
 
 ## Data flow
   <img src="https://github.com/Tran-Ngoc-Bao/AnalyzeGameData/blob/master/report/NewVersion/DataFlow.png">
