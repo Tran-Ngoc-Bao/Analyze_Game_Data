@@ -1,88 +1,34 @@
-# Bài tập lớn IT4931 
-## Thành viên nhóm
-<table>
-  <tr>
-    <th>Họ tên</th>
-    <th>MSSV</th>
-    <th>Nhiệm vụ</th>
-  </tr>
-<tr>
-  <td>Trần Ngọc Bảo (Trưởng nhóm)</td>
-  <td>20215529</td>
-  <td>Triền khai hệ thống, <br> Lưu trữ và xử lý dữ liệu</td>
-</tr>
-<tr>
-  <td>Vũ Hồng Phước</td>
-  <td>20204847</td>
-  <td>Thu thập dữ liệu</td>
-</tr>
-<tr>
-  <td>Nguyễn Ngọc Bình Dương</td>
-  <td>20204734</td>
-  <td>Thu thập dữ liệu</td>
-</tr>
-<tr>
-  <td>Hà Duy Long</td>
-  <td>20204841</td>
-  <td>Viết báo cáo</td>
-</tr>
-<tr>
-  <td>Trần Bách Lưu Đức</td>
-  <td>20200180</td>
-  <td>Viết báo cáo</td>
-</tr>
-</table>
+# IT4931 - Big data Storage and Processing - SOICT - HUST
 
-## Giới thiệu bài tập lớn
+## Introduction
 <ul>
-  <li>Tên đề tài: <strong>Lưu trữ và xử lý dữ liệu trò chơi điện tử trên điện thoại và máy tính bảng từ App store và Google play</strong></li>
-  <li>Thu thập dữ liệu game trên Google play và App store <strong> hàng tuần</strong></li>
-  <li>Lưu trữ, phân tích, xử lí dữ liệu thu được</li>
-  <li>Biểu diễn kết quả thu được dưới dạng các biểu đồ</li>
+  <li>Name of project: Storing and processing video game data on phones and computers from App store and Google play</li>
+  <li>Project objective:
+    <ul>
+      <li>Collecting game data on Google play and App store weekly</li>
+      <li>Store, analyze, and process the collected data</li>
+      <li>Present the obtained results in the form of charts</li>
+    </ul>
+  </li>
 </ul>
 
-## Cài đặt hệ thống bằng máy ảo
+## Data lake architecture
+  <img src="https://github.com/Tran-Ngoc-Bao/AnalyzeGameData/blob/master/report/NewVersion/DataLake.png">
+
+## Data flow
+  <img src="https://github.com/Tran-Ngoc-Bao/AnalyzeGameData/blob/master/report/NewVersion/DataFlow.png">
+
+## Deploy system
+
+
+## Demo
+
+
+## Old version
 <ul>
-  <li>Cài đặt <strong>VirtualBox</strong> <br>&emsp;Sau đó tạo 1 máy ảo ubuntu đóng vai trò là namenode (master)</li>
-  <li>Cài đặt <strong>BeautifulSoup4, ssh-server, jdk-8</strong></li>
-  <li>Cài đặt <strong>hadoop, spark, elasticsearch, kibana</strong> trên máy ảo</li>
-  <li>Clone máy ảo tạo 2 máy ảo khác, đồng thời cấu hình lại, mỗi máy sẽ đóng vai trò là datanode (worker)</li>
-  <li>Tạo mạng kết nối giữa các máy ảo nhờ <strong>VirtualBox và ssh-server</strong></li>
-  <li>Thu thập dữ liệu phân tán, đa luồng trên các máy ảo bằng <strong>BeautifulSoup4</strong> từ: <br>&emsp;App store (https://apps.apple.com/vn/genre/ios-tr%C3%B2-ch%C6%A1i/id6014?l=vi) <br>&emsp;Google play (https://play.google.com/store/games?device=phone&hl=vi-VN)</li>
-  <li>Đẩy dữ liệu thu thập được vào <strong>hdfs của hadoop</strong></li>
-  <li>Chạy các đoạn code trong phần source_code nhờ <strong>pyspark</strong> để phân tích, xử lí dữ liệu</li>
-  <li>Đẩy dữ liệu đã được lọc lên <strong>elasticsearch</strong></li>
-  <li>Biểu diễn dữ liệu một cách trực quan bằng <strong>kibana</strong></li>
-  <li>XEM CHI TIẾT TRONG BÁO CÁO BÀI TẬP LỚN</li>
-</ul>
-
-## Cài đặt hệ thống bằng Docker (Phát triển)
-
-
-## Demo hệ thống
-### Luồng hệ thống sử dụng máy ảo
-  <img src="https://github.com/Tran-Ngoc-Bao/AnalyzeGameData/blob/master/report/system-flow.png">
-  
-### Sơ đồ hệ thống sử dụng máy ảo
-  <img src="https://github.com/Tran-Ngoc-Bao/AnalyzeGameData/blob/master/report/VirtualMachine.png">
-
-### Luồng hệ thống sử dụng Docker (Phát triển)
-
-
-### Sơ đồ hệ thống sử dụng Docker (Phát triển)
-
-
-### Một số kết quả thu được trên máy ảo
-  <div style="display:flex">
-    <img style="width:49%" src="https://github.com/Tran-Ngoc-Bao/AnalyzeGameData/blob/master/report/screen-shots/3.17.png">
-    <img style="width:49%" src="https://github.com/Tran-Ngoc-Bao/AnalyzeGameData/blob/master/report/screen-shots/3.15.png">
-  </div>
-
-### Một số kết quả thu được trên Docker (Phát triển)
-
-
-## Báo cáo bài tập lớn
-<ul>
-  <li><a href="https://github.com/Tran-Ngoc-Bao/AnalyzeGameData/blob/master/report/report.pdf">Báo cáo</a></li>
-  <li><a href="https://github.com/Tran-Ngoc-Bao/AnalyzeGameData/blob/master/report/slide.pptx">Slide</a></li>
+  <li><a href="https://github.com/Tran-Ngoc-Bao/AnalyzeGameData/blob/master/report/OldVersion/report.pdf">Report</a></li>
+  <li><a href="https://github.com/Tran-Ngoc-Bao/AnalyzeGameData/blob/master/report/OldVersion/slide.pptx">Slide</a></li>
+  <li><a href="https://github.com/Tran-Ngoc-Bao/AnalyzeGameData/blob/master/report/OldVersion/system-flow.png">Data flow</a></li>
+  <li><a href="https://github.com/Tran-Ngoc-Bao/AnalyzeGameData/blob/master/report/OldVersion/VirtualMachine.png">System architecture</a></li>
+  <li><a href="https://github.com/Tran-Ngoc-Bao/AnalyzeGameData/blob/master/report/OldVersion/screen-shots/">Output</a></li>
 </ul>
