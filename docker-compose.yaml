@@ -24,7 +24,7 @@ services:
       - postgres_data:/var/lib/postgresql/data
           
   airflow-webserver:
-    image: puckel/docker-airflow:1.10.9
+    image: ./airflow
     container_name: airflow-webserver
     depends_on:
       - postgres
@@ -43,11 +43,11 @@ services:
     networks:
       game_data_net:
     volumes:
-      - ./airflow_dags:/usr/local/airflow/dags
+      - ./airflow/dags:/usr/local/airflow/dags
     command: webserver
 
   airflow-scheduler:
-    image: puckel/docker-airflow:1.10.9
+    image: ./airflow
     container_name: airflow-scheduler
     depends_on:
       - airflow-webserver
@@ -59,11 +59,11 @@ services:
     networks:
       game_data_net:
     volumes:
-      - ./airflow_dags:/usr/local/airflow/dags      
+      - ./airflow/dags:/usr/local/airflow/dags      
     command: scheduler
 
   airflow-worker:
-    image: puckel/docker-airflow:1.10.9
+    image: ./airflow
     container_name: airflow-worker
     depends_on:
       - airflow-scheduler
@@ -74,7 +74,7 @@ services:
     networks:
       game_data_net:
     volumes:
-      - ./airflow_dags:/usr/local/airflow/dags
+      - ./airflow/dags:/usr/local/airflow/dags
     command: worker
 
   # HDFS cluster
