@@ -24,7 +24,7 @@ services:
       - postgres_data:/var/lib/postgresql/data
           
   airflow-webserver:
-    image: ./airflow
+    image: puckel/docker-airflow:1.10.9
     container_name: airflow-webserver
     depends_on:
       - postgres
@@ -44,10 +44,11 @@ services:
       game_data_net:
     volumes:
       - ./airflow/dags:/usr/local/airflow/dags
+      - ./airflow/code:/usr/local/airflow/code
     command: webserver
 
   airflow-scheduler:
-    image: ./airflow
+    image: puckel/docker-airflow:1.10.9
     container_name: airflow-scheduler
     depends_on:
       - airflow-webserver
@@ -59,11 +60,12 @@ services:
     networks:
       game_data_net:
     volumes:
-      - ./airflow/dags:/usr/local/airflow/dags      
+      - ./airflow/dags:/usr/local/airflow/dags
+      - ./airflow/code:/usr/local/airflow/code      
     command: scheduler
 
   airflow-worker:
-    image: ./airflow
+    image: puckel/docker-airflow:1.10.9
     container_name: airflow-worker
     depends_on:
       - airflow-scheduler
@@ -75,6 +77,7 @@ services:
       game_data_net:
     volumes:
       - ./airflow/dags:/usr/local/airflow/dags
+      - ./airflow/code:/usr/local/airflow/code
     command: worker
 
   # HDFS cluster
@@ -108,42 +111,6 @@ services:
     volumes:
       - hadoop_datanode:/hadoop/dfs/data
 
-  # Hive cluster
-  hive-server:
-    image: bde2020/hive:2.3.2-postgresql-metastore
-    container_name: hive-server
-    depends_on:
-      - namenode
-      - datanode
-    environment:
-      HIVE_CORE_CONF_javax_jdo_option_ConnectionURL: "jdbc:postgresql://hive-metastore/metastore"
-      SERVICE_PRECONDITION: "hive-metastore:9083"
-    env_file:
-      - ./hadoop/hadoop-hive.env
-    ports:
-      - 10000:10000
-    networks:
-      game_data_net:
-
-  hive-metastore:
-    image: bde2020/hive:2.3.2-postgresql-metastore
-    container_name: hive-metastore
-    environment:
-      SERVICE_PRECONDITION: "namenode:9870 hive-metastore-postgresql:5432"
-    env_file:
-      - ./hadoop/hadoop-hive.env
-    ports:
-      - 9083:9083
-    networks:
-      game_data_net:
-    command: /opt/hive/bin/hive --service metastore
-
-  hive-metastore-postgresql:
-    image: bde2020/hive-metastore-postgresql:2.3.0
-    container_name: hive-metastore-postgresql
-    networks:
-      game_data_net:
-
   # Spark cluster
   spark-master:
     image: bitnami/spark
@@ -176,6 +143,20 @@ services:
     networks:
       game_data_net:
 
+  data-warehouse:
+    image: postgres
+    container_name: data-warehouse
+    environment:
+      - POSTGRES_USER=datawarehouse
+      - POSTGRES_PASSWORD=datawarehouse
+      - POSTGRES_DB=datawarehouse
+    ports:
+      - 15432:5432
+    networks:
+      game_data_net:
+    volumes:
+      - data-warehouse:/var/lib/postgresql/data
+
   superset:
     build: ./superset
     container_name: superset
@@ -200,3 +181,4 @@ volumes:
   hadoop_home:
   hadoop_namenode:
   hadoop_datanode:
+  data-warehouse:
