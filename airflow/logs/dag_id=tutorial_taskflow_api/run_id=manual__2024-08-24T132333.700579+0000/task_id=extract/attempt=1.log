@@ -1,0 +1,20 @@
+[2024-08-24T13:23:34.467+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2024-08-24T13:23:34.482+0000] {taskinstance.py:2603} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: tutorial_taskflow_api.extract manual__2024-08-24T13:23:33.700579+00:00 [queued]>
+[2024-08-24T13:23:34.490+0000] {taskinstance.py:2603} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: tutorial_taskflow_api.extract manual__2024-08-24T13:23:33.700579+00:00 [queued]>
+[2024-08-24T13:23:34.491+0000] {taskinstance.py:2856} INFO - Starting attempt 1 of 1
+[2024-08-24T13:23:34.507+0000] {taskinstance.py:2879} INFO - Executing <Task(_PythonDecoratedOperator): extract> on 2024-08-24 13:23:33.700579+00:00
+[2024-08-24T13:23:34.511+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=656) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2024-08-24T13:23:34.512+0000] {standard_task_runner.py:72} INFO - Started process 657 to run task
+[2024-08-24T13:23:34.512+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'tutorial_taskflow_api', 'extract', 'manual__2024-08-24T13:23:33.700579+00:00', '--job-id', '7', '--raw', '--subdir', 'DAGS_FOLDER/main.py', '--cfg-path', '/tmp/tmp3dctn070']
+[2024-08-24T13:23:34.514+0000] {standard_task_runner.py:105} INFO - Job 7: Subtask extract
+[2024-08-24T13:23:34.559+0000] {task_command.py:467} INFO - Running <TaskInstance: tutorial_taskflow_api.extract manual__2024-08-24T13:23:33.700579+00:00 [running]> on host d334eccfe2d9
+[2024-08-24T13:23:34.636+0000] {taskinstance.py:3122} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='tutorial_taskflow_api' AIRFLOW_CTX_TASK_ID='extract' AIRFLOW_CTX_EXECUTION_DATE='2024-08-24T13:23:33.700579+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2024-08-24T13:23:33.700579+00:00'
+[2024-08-24T13:23:34.638+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2024-08-24T13:23:34.977+0000] {python.py:240} INFO - Done. Returned value was: None
+[2024-08-24T13:23:34.988+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2024-08-24T13:23:34.989+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=tutorial_taskflow_api, task_id=extract, run_id=manual__2024-08-24T13:23:33.700579+00:00, execution_date=20240824T132333, start_date=20240824T132334, end_date=20240824T132334
+[2024-08-24T13:23:35.009+0000] {local_task_job_runner.py:261} INFO - Task exited with return code 0
+[2024-08-24T13:23:35.024+0000] {taskinstance.py:3891} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2024-08-24T13:23:35.028+0000] {local_task_job_runner.py:240} INFO - ::endgroup::
