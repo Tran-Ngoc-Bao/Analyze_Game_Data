@@ -10,15 +10,15 @@
 #     if i['href'].find('/vn/app/') != -1:
 #         print(i['href'])
 
-from hdfs import InsecureClient
-client = InsecureClient('hdfs://namenode:9000', user='root')
+# from hdfs import InsecureClient
+# client = InsecureClient('hdfs://namenode:9000', user='root')
 
-from json import dump, dumps
-records = [
-  {'name': 'foo', 'weight': 1},
-  {'name': 'bar', 'weight': 2},
-]
+# from json import dump, dumps
+# records = [
+#   {'name': 'foo', 'weight': 1},
+#   {'name': 'bar', 'weight': 2},
+# ]
 
-# As a context manager:
-with client.write('records.jsonl', encoding='utf-8') as writer:
-  dump(records, writer)
+# # As a context manager:
+# with client.write('records.jsonl', encoding='utf-8') as writer:
+#   dump(records, writer)
