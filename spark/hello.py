@@ -4,7 +4,15 @@ from pyspark.context import SparkContext
 
 if __name__ == "__main__":
 	sc = SparkContext("spark://spark-master:7077", "test")
+
+	dataDictionary = [
+        ('James',{'hair':'black','eye':'brown'}),
+        ('Michael',{'hair':'brown','eye':None}),
+        ('Robert',{'hair':'red','eye':'black'}),
+        ('Washington',{'hair':'red','eye':'grey'}),
+        ('Jefferson',{'hair':'red','eye':''})
+        ]
 	
 	spark = SparkSession(sc)
-	df_ds = spark.read.csv("/opt/code/test.csv")
-	df_ds.write.option("header", "true").option("delimiter", ",").mode("overwrite").csv("hdfs://namenode:9000/test")
+	df = spark.createDataFrame(data=dataDictionary, schema = ["name","properties"])
+	df.write.save('hdfs://namenode:9000/test', format='parquet', mode='append')

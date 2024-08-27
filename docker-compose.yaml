@@ -1,68 +1,76 @@
 version: '3'
 
+x-airflow-common:
+  &airflow-common
+  image: ${AIRFLOW_IMAGE_NAME:-apache/airflow:2.10.0}
+  environment:
+    &airflow-common-env
+    AIRFLOW__CORE__EXECUTOR: LocalExecutor
+    AIRFLOW__CORE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres/airflow
+    AIRFLOW__CORE__FERNET_KEY: ''
+    AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: 'true'
+    AIRFLOW__CORE__LOAD_EXAMPLES: 'false'
+    AIRFLOW__API__AUTH_BACKEND: 'airflow.api.auth.backend.basic_auth'
+    _PIP_ADDITIONAL_REQUIREMENTS: ${_PIP_ADDITIONAL_REQUIREMENTS:- apache-airflow-providers-microsoft-mssql}
+  volumes:
+    - ./airflow/dags:/opt/airflow/dags
+    - ./airflow/logs:/opt/airflow/logs
+    - ./airflow/plugins:/opt/airflow/plugins
+    - ./airflow/scripts:/opt/airflow/scripts
+  user: "${AIRFLOW_UID:-50000}:${AIRFLOW_GID:-50000}"
+  depends_on:
+    postgres:
+      condition: service_healthy
+  networks:
+    game_data_net:
+
 services:
-  # Nifi cluster
-  zookeeper:
-    image: confluentinc/cp-zookeeper
-    container_name: zookeeper
+  postgres:
+    image: postgres
+    container_name: postgres
     environment:
-      ZOOKEEPER_CLIENT_PORT: 2181
-      ZOOKEEPER_TICK_TIME: 2000
-      ALLOW_ANONYMOUS_LOGIN: yes
-    ports:
-      - 2181:2181
+      POSTGRES_USER: airflow
+      POSTGRES_PASSWORD: airflow
+      POSTGRES_DB: airflow
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "airflow"]
+      interval: 5s
+      retries: 5
+    restart: always
     networks:
       game_data_net:
     volumes:
-      - ./zookeeper/secrets:/etc/zookeeper/secrets
-      - ./zookeeper/data:/var/lib/zookeeper/data
-      - ./zookeeper/log:/var/lib/zookeeper/log
+      - postgres-db-volume:/var/lib/postgresql/data
 
-  nifi01:
-    image: apache/nifi
-    container_name: nifi01
-    environment:
-      - NIFI_WEB_HTTP_PORT=8080
-      - NIFI_CLUSTER_IS_NODE=true
-      - NIFI_CLUSTER_NODE_PROTOCOL_PORT=8082
-      - NIFI_ZK_CONNECT_STRING=zookeeper:2181
-      - NIFI_ELECTION_MAX_WAIT=1 min
-      - NIFI_SENSITIVE_PROPS_KEY=MySuperSecretKey
+  airflow-webserver:
+    <<: *airflow-common
+    container_name: airflow-webserver
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://localhost:8080/health"]
+      interval: 10s
+      timeout: 10s
+      retries: 5
     ports:
-      - 6980:8080
-    networks:
-      game_data_net:
-    volumes:
-      - nifi01_conf:/opt/nifi/nifi-current/conf
-      - nifi01_logs:/opt/nifi/nifi-current/logs
-      - nifi01_provenance_repository:/opt/nifi/nifi-current/provenance_repository
-      - nifi01_state:/opt/nifi/nifi-current/state
-      - nifi01_content_repository:/opt/nifi/nifi-current/content_repository
-      - nifi01_database_repository:/opt/nifi/nifi-current/database_repository
-      - nifi01_flowfile_repository:/opt/nifi/nifi-current/flowfile_repository
+      - 8080:8080
+    restart: always
+    command: webserver
 
-  nifi02:
-    image: apache/nifi
-    container_name: nifi02
+  airflow-scheduler:
+    <<: *airflow-common
+    container_name: airflow-scheduler
+    restart: always
+    command: scheduler
+
+  airflow-init:
+    <<: *airflow-common
+    container_name: airflow-init
     environment:
-      - NIFI_WEB_HTTP_PORT=8080
-      - NIFI_CLUSTER_IS_NODE=true
-      - NIFI_CLUSTER_NODE_PROTOCOL_PORT=8082
-      - NIFI_ZK_CONNECT_STRING=zookeeper:2181
-      - NIFI_ELECTION_MAX_WAIT=1 min
-      - NIFI_SENSITIVE_PROPS_KEY=MySuperSecretKey
-    ports:
-      - 6979:8080
-    networks:
-      game_data_net:
-    volumes:
-      - nifi02_conf:/opt/nifi/nifi-current/conf
-      - nifi02_logs:/opt/nifi/nifi-current/logs
-      - nifi02_provenance_repository:/opt/nifi/nifi-current/provenance_repository
-      - nifi02_state:/opt/nifi/nifi-current/state
-      - nifi02_content_repository:/opt/nifi/nifi-current/content_repository
-      - nifi02_database_repository:/opt/nifi/nifi-current/database_repository
-      - nifi02_flowfile_repository:/opt/nifi/nifi-current/flowfile_repository
+      <<: *airflow-common-env
+      _AIRFLOW_DB_UPGRADE: 'true'
+      _AIRFLOW_WWW_USER_CREATE: 'true'
+      _AIRFLOW_WWW_USER_USERNAME: ${_AIRFLOW_WWW_USER_USERNAME:-airflow}
+      _AIRFLOW_WWW_USER_PASSWORD: ${_AIRFLOW_WWW_USER_PASSWORD:-airflow}
+    command: version
 
   # HDFS cluster
   namenode:
@@ -162,22 +170,7 @@ networks:
   game_data_net:
 
 volumes:
-  nifi01_conf:
-  nifi01_logs:
-  nifi01_provenance_repository:
-  nifi01_state:
-  nifi01_content_repository:
-  nifi01_database_repository:
-  nifi01_flowfile_repository:
-
-  nifi02_conf:
-  nifi02_logs:
-  nifi02_provenance_repository:
-  nifi02_state:
-  nifi02_content_repository:
-  nifi02_database_repository:
-  nifi02_flowfile_repository:
-  
+  postgres-db-volume:
   hadoop_home:
   hadoop_namenode:
   hadoop_datanode:
