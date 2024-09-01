@@ -2,8 +2,7 @@ version: '3'
 
 x-airflow-common:
   &airflow-common
-  image: airflow
-  # build: ./airflow
+  image: apache/airflow:2.10.0
   environment:
     &airflow-common-env
     AIRFLOW__CORE__EXECUTOR: LocalExecutor
@@ -18,6 +17,7 @@ x-airflow-common:
     - ./airflow/logs:/opt/airflow/logs
     - ./airflow/plugins:/opt/airflow/plugins
     - ./airflow/scripts:/opt/airflow/scripts
+    - ./spark:/opt/aitflow/code
   user: "${AIRFLOW_UID:-50000}:${AIRFLOW_GID:-50000}"
   depends_on:
     postgres:
@@ -26,6 +26,7 @@ x-airflow-common:
     game_data_net:
 
 services:
+  # Airflow cluster
   postgres:
     image: postgres
     container_name: postgres
@@ -119,8 +120,6 @@ services:
       - 8888:8080
     networks:
       game_data_net:
-    volumes:
-      - ./spark:/opt/code
       
   spark-worker:
     image: bitnami/spark
@@ -137,8 +136,6 @@ services:
       - SPARK_USER=spark
     networks:
       game_data_net:
-    volumes:
-      - ./spark:/opt/code
 
   # Other
   data-warehouse:
