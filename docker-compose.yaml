@@ -17,7 +17,7 @@ x-airflow-common:
     - ./airflow/logs:/opt/airflow/logs
     - ./airflow/plugins:/opt/airflow/plugins
     - ./airflow/scripts:/opt/airflow/scripts
-    - ./spark:/opt/aitflow/code
+    - ./spark/code:/opt/aitflow/code
   user: "${AIRFLOW_UID:-50000}:${AIRFLOW_GID:-50000}"
   depends_on:
     postgres:
@@ -107,7 +107,8 @@ services:
 
   # Spark cluster
   spark-master:
-    image: bitnami/spark
+    image: spark
+    # build: ./spark
     container_name: spark-master
     environment:
       - SPARK_MODE=master
@@ -120,9 +121,12 @@ services:
       - 8888:8080
     networks:
       game_data_net:
+    volumes:
+      - ./spark/code:/opt/code
       
   spark-worker:
-    image: bitnami/spark
+    image: spark
+    # build: ./spark
     container_name: spark-worker
     environment:
       - SPARK_MODE=worker
@@ -136,6 +140,8 @@ services:
       - SPARK_USER=spark
     networks:
       game_data_net:
+    volumes:
+      - ./spark/code:/opt/code
 
   # Other
   data-warehouse:
