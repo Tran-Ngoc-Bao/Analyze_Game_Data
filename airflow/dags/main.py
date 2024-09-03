@@ -21,20 +21,14 @@ dag = DAG("main", default_args = default_args, schedule_interval = timedelta(30)
 
 extract_load_task = BashOperator(
     task_id = "extract_load_task",
-    bash_command = "spark-submit /opt/aitflow/code/hello.py", 
+    bash_command = "spark-submit /opt/aitflow/code/extract_load.py", 
     dag = dag
 )
 
 transform_task = BashOperator(
     task_id = "transform_task",
-    bash_command = "spark-submit /opt/aitflow/code/hello.py", 
+    bash_command = "spark-submit /opt/aitflow/code/transform.py", 
     dag = dag
 )
 
-data_warehouse_task = BashOperator(
-    task_id = "data_warehouse_task",
-    bash_command = "spark-submit /opt/aitflow/code/hello.py", 
-    dag = dag
-)
-
-extract_load_task >> transform_task >> data_warehouse_task
+extract_load_task >> transform_task

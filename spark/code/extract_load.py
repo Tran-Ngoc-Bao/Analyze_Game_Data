@@ -1,30 +1,48 @@
-from pyspark.sql.functions import *
 from pyspark.sql.session import SparkSession
 from pyspark.context import SparkContext
+from pyspark.sql.types import *
 import requests
 from bs4 import BeautifulSoup
 from datetime import datetime
+
+schema = StructType([
+		StructField("url", StringType(), False),
+		StructField("content", StringType(), False)
+	])
+
+run_time = "{:%d%m%Y}".format(datetime.now())
+
+def extract_load(link, find_con, url_header, classification):
+	t = requests.get(link).text
+	soup = BeautifulSoup(t, "html.parser")
+	l = soup.find_all('a')
+	data = []
+
+	for i in l:
+		if str(i).find(find_con) != -1:
+			url = url_header + i["href"]
+			
+			try:
+				content = requests.get(url, timeout = 5).text
+			except requests.exceptions.Timeout:
+				try:
+					content = requests.get(url, timeout = 5).text
+				except requests.exceptions.Timeout:
+					try:
+						content = requests.get(url, timeout = 5).text
+					except requests.exceptions.Timeout:
+						continue
+
+			tmp = tuple((url, content))
+			data.append(tmp)
+
+	df = spark.createDataFrame(data = data, schema = schema)
+	df.write.save("hdfs://namenode:9000/" + classification + "/" + run_time, format = "parquet", mode = "overwrite")
 
 if __name__ == "__main__":
 	sc = SparkContext("spark://spark-master:7077", "extract_load")
 	spark = SparkSession(sc)
 
-	a = requests.get("https://play.google.com/store/games?device=mobile")
-	t = a.text
-	b = sc.textFile(t)
-	b.saveAsTextFile("hdfs://namenode:9000/test.txt")
-	# soup = BeautifulSoup(t, "html.parser")
-	# l = soup.find_all('a')
-	# for i in l:
-	# 	if str(i).find("/apps/details") != -1:
-	# 		print(str(sum) + "abc" + "{:%d%m%Y}".format(datetime.now()))
-	# 		t.saveAsTextFile("hdfs://namenode:9000/text.txt")
-
-	# a = requests.get("https://play.google.com/store/games?device=tablet")
-	# t = a.text
-
-	# soup = BeautifulSoup(t, "html.parser")
-	# l = soup.find_all('a')
-	# for i in l:
-	# 	if str(i).find("/apps/details") != -1:
-	# 		print(str(sum) + "abc" + "{:%d%m%Y}".format(datetime.now()))
+	extract_load("https://play.google.com/store/games?device=phone", "/apps/details", "https://play.google.com", "google_play_phone")
+	extract_load("https://play.google.com/store/games?device=tablet", "/apps/details", "https://play.google.com", "google_play_tablet")
+	extract_load("https://apps.apple.com/vn/genre/ios-tr%C3%B2-ch%C6%A1i/id6014?l=vi", "/vn/app/", "", "app_store")
