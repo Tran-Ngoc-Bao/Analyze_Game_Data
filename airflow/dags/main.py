@@ -25,10 +25,16 @@ extract_load_task = BashOperator(
     dag = dag
 )
 
-transform_task = BashOperator(
-    task_id = "transform_task",
-    bash_command = "spark-submit /opt/aitflow/code/transform.py", 
+transform_app_store_task = BashOperator(
+    task_id = "transform_app_store_task",
+    bash_command = "spark-submit /opt/aitflow/code/transform_app_store.py", 
     dag = dag
 )
 
-extract_load_task >> transform_task
+transform_google_play_task = BashOperator(
+    task_id = "transform_google_play_task",
+    bash_command = "spark-submit /opt/aitflow/code/transform_google_play.py", 
+    dag = dag
+)
+
+extract_load_task >> [transform_app_store_task, transform_google_play_task]
