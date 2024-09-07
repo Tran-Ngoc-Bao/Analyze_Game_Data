@@ -1,0 +1,4 @@
+airflow-webserver: 8080
+namenode: 9870
+spark-master: 8888
+superset: 8088

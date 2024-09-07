@@ -3,22 +3,105 @@ from pyspark.sql.types import *
 from pyspark.sql.functions import *
 from bs4 import BeautifulSoup
 from datetime import datetime
-import pandas as pd
 
 run_time = "{:%d%m%Y}".format(datetime.now())
 run_time ="03092024"
+
+def extract_alpha(str):
+	result = ""
+	for char in str:
+		if (char.isalpha()):
+			result += char
+	return result
+
+def extract_numeric(str):
+	result = ""
+	for char in str:
+		if (char.isnumeric()):
+			result += char
+	return result
+
+def extract_alpha_numeric(str):
+	result = ""
+	for char in str:
+		if (char.isalnum()):
+			result += char
+	return result
+
+def extract_ageLimit(nameAndAge):
+	result = ""
+	for char in nameAndAge[(len(nameAndAge) - 5):]:
+		if (char.isnumeric()):
+			result += char
+	return result
+
+def extract_classify(ranking):
+	result = ""
+	for char in ranking:
+		if (char.isalpha()):
+			result += char
+	return result[5:]
+
+def extract_rating(ratingAndReviews):
+	if len(ratingAndReviews) != 0:
+		return ratingAndReviews[:3]
+	return ""
+
+def extract_reviews(ratingAndReviews):
+	if len(ratingAndReviews) != 0:
+		tmp = ""
+		h = ""
+		for char in ratingAndReviews[6:]:
+			if (char.isnumeric()):
+				tmp += char
+			elif (char == ","):
+				tmp += "."
+			elif (char.isalpha()):
+				h = char
+				break
+
+		if h == "N":
+			return int(float(tmp) * 1000)
+		if h == "T":
+			return int(float(tmp) * 1000000)
+		return int(float(tmp))
+	return 0
+
+def extract_price(price):
+	result = ""
+	for char in price:
+		if (char.isnumeric()):
+			result += char
+	if len(result) != 0:
+		return int(result)
+	return 0
+
+def extract_size(size):
+	tmp = ""
+	h = ""
+	for char in size:
+		if (char.isnumeric()):
+			tmp += char
+		elif (char == ","):
+			tmp += "."
+		elif (char.isalpha()):
+			h = char
+			break
+
+	if h == "G":
+		return float(tmp) * 1000
+	return float(tmp)
 
 if __name__ == "__main__":
 	spark = SparkSession.builder.config("spark.jars", "/opt/code/postgresql-42.2.5.jar").master("spark://spark-master:7077").appName("transform_app_store").getOrCreate()
 
 	df = spark.read.parquet("hdfs://namenode:9000/app_store/" + run_time + "/*.parquet")
-	pd_df = df.toPandas()
-	list_url = pd_df["url"].tolist()
-	list_content = pd_df["content"].tolist()
+	list_url = df.select("url").collect()
+	list_content = df.select("content").collect()
 
 	data = []
 	for i in range(2):
-		soup = BeautifulSoup(list_content[i], 'html.parser')
+		soup = BeautifulSoup(list_content[i].content, 'html.parser')
           
 		nameAndAge = soup.find_all('h1')
 		company = soup.find_all(class_ = 'product-header__identity')
@@ -33,32 +116,36 @@ if __name__ == "__main__":
 
 		tmp = {}
           
-		tmp['link'] = list_url[i]
-		tmp['nameAndAge'] = nameAndAge[0].text
 		if len(company) == 0:
 			continue
-		tmp['company'] = company[0].text
-		tmp['ranking'] = raking[0].text
+		tmp['company'] = extract_alpha_numeric(company[0].text)
+		tmp['link'] = list_url[i].url
+		tmp['name'] = extract_alpha(nameAndAge[0].text)
+		tmp['age'] = extract_ageLimit(nameAndAge[0].text)
+		tmp['ranking'] = extract_alpha_numeric(raking[0].text)
+		tmp['classify'] = extract_classify(raking[0].text)
 		if len(ratingAndReviews) == 0:
-			tmp['ratingAndReviews'] = ""
+			tmp['rating'] = ""
+			tmp['reviews'] = 0
 		else:
-			tmp['ratingAndReviews'] = ratingAndReviews[0].text
-		tmp['price'] = price[0].text
+			tmp['rating'] = extract_rating(ratingAndReviews[0].text)
+			tmp['reviews'] = extract_reviews(ratingAndReviews[0].text)
+		tmp['price'] = extract_price(price[0].text)
 		if len(availablity) == 0:
 			tmp['availablity'] = ""
 		else:
-			tmp['availablity'] = availablity[0].text
-		tmp['describe'] = describe[0].text
+			tmp['availablity'] = extract_alpha_numeric(availablity[0].text)
+		tmp['describe'] = extract_alpha_numeric(describe[0].text)
 		if len(new) == 0:
 			tmp['new'] = ""
 		else:
-			tmp['new'] = new[0].text
+			tmp['new'] = extract_alpha_numeric(new[0].text)
 
-		tmp['configuration'] = configurationAndSize[3].text
-		tmp['size'] = configurationAndSize[1].text
-		tmp['language'] = language[4].text
+		tmp['configuration'] = extract_alpha_numeric(configurationAndSize[3].text)
+		tmp['size'] = extract_size(configurationAndSize[1].text)
+		tmp['language'] = extract_alpha_numeric(language[4].text)
 
 		data.append(tmp)
 	
-	df_ = pd.DataFrame(data)
-	print(df_)
+	df_ = spark.createDataFrame(data)
+	

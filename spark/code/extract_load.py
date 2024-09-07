@@ -13,7 +13,7 @@ schema = StructType([
 run_time = "{:%d%m%Y}".format(datetime.now())
 
 def extract_load(link, find_con, url_header, classification):
-	t = requests.get(link).text
+	t = requests.get(link).content
 	soup = BeautifulSoup(t, "html.parser")
 	l = soup.find_all('a')
 	data = []
@@ -23,13 +23,13 @@ def extract_load(link, find_con, url_header, classification):
 			url = url_header + i["href"]
 			
 			try:
-				content = requests.get(url, timeout = 5).text
+				content = requests.get(url, timeout = 5).content
 			except requests.exceptions.Timeout:
 				try:
-					content = requests.get(url, timeout = 5).text
+					content = requests.get(url, timeout = 5).content
 				except requests.exceptions.Timeout:
 					try:
-						content = requests.get(url, timeout = 5).text
+						content = requests.get(url, timeout = 5).content
 					except requests.exceptions.Timeout:
 						continue
 
