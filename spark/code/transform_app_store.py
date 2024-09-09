@@ -5,58 +5,61 @@ from bs4 import BeautifulSoup
 from datetime import datetime
 
 run_time = "{:%d%m%Y}".format(datetime.now())
-run_time ="03092024"
+# run_time ="03092024"
 
 def extract_alpha(str):
+	str = str.strip()
 	result = ""
 	for char in str:
-		if (char.isalpha()):
+		if char.isalpha() or char == ' ':
 			result += char
 	return result
 
 def extract_numeric(str):
 	result = ""
 	for char in str:
-		if (char.isnumeric()):
+		if char.isnumeric():
 			result += char
 	return result
 
 def extract_alpha_numeric(str):
+	str = str.strip()
 	result = ""
 	for char in str:
-		if (char.isalnum()):
+		if char.isalnum() or char == ' ':
 			result += char
 	return result
 
 def extract_ageLimit(nameAndAge):
 	result = ""
 	for char in nameAndAge[(len(nameAndAge) - 5):]:
-		if (char.isnumeric()):
+		if char.isnumeric():
 			result += char
-	return result
+	return int(result)
 
 def extract_classify(ranking):
+	ranking = ranking.strip()
 	result = ""
 	for char in ranking:
-		if (char.isalpha()):
+		if char.isalpha() or char == ' ':
 			result += char
-	return result[5:]
+	return result[7:]
 
 def extract_rating(ratingAndReviews):
 	if len(ratingAndReviews) != 0:
-		return ratingAndReviews[:3]
-	return ""
+		return float(ratingAndReviews[:3].replace(",", "."))
+	return 0.0
 
 def extract_reviews(ratingAndReviews):
 	if len(ratingAndReviews) != 0:
 		tmp = ""
 		h = ""
 		for char in ratingAndReviews[6:]:
-			if (char.isnumeric()):
+			if char.isnumeric():
 				tmp += char
-			elif (char == ","):
+			elif char == ",":
 				tmp += "."
-			elif (char.isalpha()):
+			elif char.isalpha():
 				h = char
 				break
 
@@ -70,7 +73,7 @@ def extract_reviews(ratingAndReviews):
 def extract_price(price):
 	result = ""
 	for char in price:
-		if (char.isnumeric()):
+		if char.isnumeric():
 			result += char
 	if len(result) != 0:
 		return int(result)
@@ -80,11 +83,11 @@ def extract_size(size):
 	tmp = ""
 	h = ""
 	for char in size:
-		if (char.isnumeric()):
+		if char.isnumeric():
 			tmp += char
 		elif (char == ","):
 			tmp += "."
-		elif (char.isalpha()):
+		elif char.isalpha():
 			h = char
 			break
 
@@ -100,7 +103,7 @@ if __name__ == "__main__":
 	list_content = df.select("content").collect()
 
 	data = []
-	for i in range(2):
+	for i in range(len(list_url)):
 		soup = BeautifulSoup(list_content[i].content, 'html.parser')
           
 		nameAndAge = soup.find_all('h1')
@@ -122,7 +125,7 @@ if __name__ == "__main__":
 		tmp['link'] = list_url[i].url
 		tmp['name'] = extract_alpha(nameAndAge[0].text)
 		tmp['age'] = extract_ageLimit(nameAndAge[0].text)
-		tmp['ranking'] = extract_alpha_numeric(raking[0].text)
+		tmp['ranking'] = int(extract_numeric(raking[0].text))
 		tmp['classify'] = extract_classify(raking[0].text)
 		if len(ratingAndReviews) == 0:
 			tmp['rating'] = ""
@@ -147,5 +150,4 @@ if __name__ == "__main__":
 
 		data.append(tmp)
 	
-	df_ = spark.createDataFrame(data)
-	
+	# df_ = spark.createDataFrame(data)

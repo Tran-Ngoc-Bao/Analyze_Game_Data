@@ -33,11 +33,11 @@ def extract_load(link, find_con, url_header, classification):
 					except requests.exceptions.Timeout:
 						continue
 
-			tmp = tuple((url, content))
+			tmp = tuple((url, content.decode("utf-8")))
 			data.append(tmp)
 
 	df = spark.createDataFrame(data = data, schema = schema)
-	df.write.save("hdfs://namenode:9000/" + classification + "/" + run_time, format = "parquet", mode = "overwrite")
+	df.write.mode("overwrite").parquet("hdfs://namenode:9000/" + classification + "/" + run_time)
 
 if __name__ == "__main__":
 	sc = SparkContext("spark://spark-master:7077", "extract_load")

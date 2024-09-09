@@ -5,12 +5,12 @@ from bs4 import BeautifulSoup
 from datetime import datetime
 
 run_time = "{:%d%m%Y}".format(datetime.now())
-run_time ="03092024"
+# run_time ="03092024"
 
 def extract_alpha_numeric(str):
 	result = ""
 	for char in str:
-		if (char.isalnum()):
+		if char.isalnum() or char == ' ':
 			result += char
 	return result
 
@@ -19,9 +19,9 @@ def extract_downloads(downloads):
 		tmp = ""
 		h = ""
 		for char in downloads:
-			if (char.isnumeric()):
+			if char.isnumeric():
 				tmp += char
-			elif (char.isalpha()):
+			elif char.isalpha():
 				h = char
 				break
 
@@ -39,9 +39,9 @@ def extract_reviews(reviews):
 		tmp = ""
 		h = ""
 		for char in reviews:
-			if (char.isnumeric()) or (char == "."):
+			if char.isnumeric() or char == ".":
 				tmp += char
-			elif (char.isalpha()):
+			elif char.isalpha():
 				h = char
 				break
 
@@ -58,23 +58,23 @@ def extract_ranking(classify):
 	if classify[0] == "#":
 		result = ""
 		for char in classify:
-			if (char.isalnum()):
-				if (char.isupper()):
+			if char.isnumeric():
+				if char.isupper():
 					break
 				result += char
-		return result
-	return ""
+		return int(result)
+	return 1000000000
 
 def extract_classify(classify):
 	start = 0
 	for i in range(len(classify)):
-		if (classify[i].isupper()):
+		if classify[i].isupper():
 			start = i
 			break
 	result = classify[start]
 	for i in range(start + 1, len(classify)):
-		if (classify[i].isalpha()):
-			if (classify[i].isupper()) and (classify[i - 1].isalpha()):
+		if classify[i].isalpha():
+			if classify[i].isupper() and classify[i - 1].isalpha():
 				break
 			result += classify[i]
 	return result
@@ -85,7 +85,7 @@ def solution(classification):
     list_content = df.select("content").collect()
 
     data = []
-    for i in range(2):
+    for i in range(len(list_url)):
         soup = BeautifulSoup(list_content[i].content, 'html.parser')
         name = soup.find_all('h1')
         company = soup.find_all(class_ = 'Vbfug')
@@ -104,13 +104,13 @@ def solution(classification):
         tmp['link'] = list_url[i].url
         tmp['company'] = extract_alpha_numeric(company[0].text)
         if len(ratingAndDownloads) == 1:
-            tmp['rating'] = ""
+            tmp['rating'] = 0.0
             tmp['downloads'] = 0
         elif len(ratingAndDownloads) == 2:
-            tmp['rating'] = ""
+            tmp['rating'] = 0.0
             tmp['downloads'] = extract_downloads(ratingAndDownloads[0].text)
         else:
-            tmp['rating'] = ratingAndDownloads[0].text
+            tmp['rating'] = float(ratingAndDownloads[0].text[:3])
             tmp['downloads'] = extract_downloads(ratingAndDownloads[1].text)
         if len(reviewsAndAge) == 1:
             tmp['reviews'] = 0
@@ -128,8 +128,8 @@ def solution(classification):
         tmp['privacy'] = "https://play.google.com" + privacy[1].get('href')
 
         data.append(tmp)
-	
-    df_ = spark.createDataFrame(data)
+
+    # df_ = spark.createDataFrame(data)
 
 if __name__ == "__main__":
 	spark = SparkSession.builder.config("spark.jars", "/opt/code/postgresql-42.2.5.jar").master("spark://spark-master:7077").appName("transform_google_play").getOrCreate()
