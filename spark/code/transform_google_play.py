@@ -4,8 +4,8 @@ from pyspark.sql.functions import *
 from bs4 import BeautifulSoup
 from datetime import datetime
 
-run_time = "{:%d%m%Y}".format(datetime.now())
-# run_time ="03092024"
+# run_time = "{:%d%m%Y}".format(datetime.now())
+run_time ="09092024"
 
 def extract_alpha_numeric(str):
 	result = ""
@@ -129,7 +129,10 @@ def solution(classification):
 
         data.append(tmp)
 
-    # df_ = spark.createDataFrame(data)
+    df_ = spark.createDataFrame(data)
+    url = "jdbc:postgresql://data-warehouse:5432/datawarehouse"
+    properties = {"user": "datawarehouse","password": "datawarehouse"}
+    df_.write.mode("overwrite").jdbc(url=url, table=classification + "_" + run_time, properties=properties)
 
 if __name__ == "__main__":
 	spark = SparkSession.builder.config("spark.jars", "/opt/code/postgresql-42.2.5.jar").master("spark://spark-master:7077").appName("transform_google_play").getOrCreate()

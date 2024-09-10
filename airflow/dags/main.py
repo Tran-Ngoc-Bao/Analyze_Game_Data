@@ -27,13 +27,13 @@ extract_load_task = BashOperator(
 
 transform_app_store_task = BashOperator(
     task_id = "transform_app_store_task",
-    bash_command = "spark-submit /opt/aitflow/code/transform_app_store.py", 
+    bash_command = "spark-submit --driver-class-path /opt/code/postgresql-42.2.5.jar /opt/code/transform_app_store.py", 
     dag = dag
 )
 
 transform_google_play_task = BashOperator(
     task_id = "transform_google_play_task",
-    bash_command = "spark-submit /opt/aitflow/code/transform_google_play.py", 
+    bash_command = "spark-submit --driver-class-path /opt/code/postgresql-42.2.5.jar /opt/code/transform_google_play.py", 
     dag = dag
 )
 
