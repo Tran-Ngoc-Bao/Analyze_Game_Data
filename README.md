@@ -43,7 +43,17 @@ bash bootstrap-superset.sh
 
 
 ## Demo
+### Data flow in Airflow
+<img style="width:80%" src="https://github.com/Tran-Ngoc-Bao/Analyze_Game_Data/blob/master/pictures/screenshot/airflow.jpeg">
 
+### Data lake in HDFS
+<img style="width:80%" src="https://github.com/Tran-Ngoc-Bao/Analyze_Game_Data/blob/master/pictures/screenshot/hdfs.jpeg">
+
+### Top review company Google play
+<img style="width:75%" src="https://github.com/Tran-Ngoc-Bao/Analyze_Game_Data/blob/master/pictures/output/reviews-company-google-play-tablet-09092024-2024-09-10T15-44-59.913Z.jpg">
+
+### Top gan=me genre App store
+<img style="width:75%" src="https://github.com/Tran-Ngoc-Bao/Analyze_Game_Data/blob/master/pictures/output/classify-app-store-09092024-2024-09-10T15-37-01.306Z.jpg">
 
 ## Old version
 <ul>
