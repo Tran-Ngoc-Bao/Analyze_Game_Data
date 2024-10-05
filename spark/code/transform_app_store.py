@@ -96,7 +96,7 @@ def extract_size(size):
 	return float(tmp)
 
 if __name__ == "__main__":
-	spark = SparkSession.builder.config("spark.jars", "/opt/code/postgresql-42.2.5.jar").master("spark://spark-master:7077").appName("transform_app_store").getOrCreate()
+	spark = SparkSession.builder.config("spark.jars", "/opt/code/postgresql-42.2.5.jar").master("spark://spark:7077").appName("transform_app_store").getOrCreate()
 
 	df = spark.read.parquet("hdfs://namenode:9000/app_store/" + run_time + "/*.parquet")
 	list_url = df.select("url").collect()

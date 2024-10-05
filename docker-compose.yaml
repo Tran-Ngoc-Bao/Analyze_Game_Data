@@ -2,7 +2,8 @@ version: '3'
 
 x-airflow-common:
   &airflow-common
-  image: apache/airflow:2.10.0
+  image: airflow
+  # build: ./airflow
   environment:
     &airflow-common-env
     AIRFLOW__CORE__EXECUTOR: LocalExecutor
@@ -105,43 +106,26 @@ services:
     volumes:
       - hadoop_datanode:/hadoop/dfs/data
 
-  # Spark cluster
-  spark-master:
+  # Spark
+  spark:
     image: spark
     # build: ./spark
-    container_name: spark-master
+    container_name: spark
     environment:
-      - SPARK_MODE=master
-      - SPARK_RPC_AUTHENTICATION_ENABLED=no
-      - SPARK_RPC_ENCRYPTION_ENABLED=no
-      - SPARK_LOCAL_STORAGE_ENCRYPTION_ENABLED=no
-      - SPARK_SSL_ENABLED=no
-      - SPARK_USER=spark
+      - AWS_ACCESS_KEY_ID=admin
+      - AWS_SECRET_ACCESS_KEY=password
+      - AWS_REGION=us-east-1
     ports:
-      - 8888:8080
+      - 8888:8888
+      - 8080:8080
+      - 10000:10000
+      - 10001:10001
     networks:
       game_data_net:
     volumes:
-      - ./spark/code:/opt/code
-      
-  spark-worker:
-    image: spark
-    # build: ./spark
-    container_name: spark-worker
-    environment:
-      - SPARK_MODE=worker
-      - SPARK_MASTER_URL=spark://spark-master:7077
-      - SPARK_WORKER_MEMORY=1G
-      - SPARK_WORKER_CORES=1
-      - SPARK_RPC_AUTHENTICATION_ENABLED=no
-      - SPARK_RPC_ENCRYPTION_ENABLED=no
-      - SPARK_LOCAL_STORAGE_ENCRYPTION_ENABLED=no
-      - SPARK_SSL_ENABLED=no
-      - SPARK_USER=spark
-    networks:
-      game_data_net:
-    volumes:
-      - ./spark/code:/opt/code
+      - iceberg_warehouse:/home/iceberg/warehouse
+      - iceberg_notebooks:/home/iceberg/notebooks/notebooks
+      - ./spark/code:/home/iceberg/code
 
   # Other
   data-warehouse:
@@ -182,5 +166,7 @@ volumes:
   hadoop_home:
   hadoop_namenode:
   hadoop_datanode:
+  iceberg_warehouse:
+  iceberg_notebooks:
   data-warehouse:
   superset_data:

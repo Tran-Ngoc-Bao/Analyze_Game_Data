@@ -135,7 +135,7 @@ def solution(classification):
     df_.write.mode("overwrite").jdbc(url=url, table=classification + "_" + run_time, properties=properties)
 
 if __name__ == "__main__":
-	spark = SparkSession.builder.config("spark.jars", "/opt/code/postgresql-42.2.5.jar").master("spark://spark-master:7077").appName("transform_google_play").getOrCreate()
+	spark = SparkSession.builder.config("spark.jars", "/opt/code/postgresql-42.2.5.jar").master("spark://spark:7077").appName("transform_google_play").getOrCreate()
 
 	solution("google_play_phone")
 	solution("google_play_tablet")

@@ -24,10 +24,10 @@
 docker compose up -d
 ```
 
-#### 3. Install java on airflow-webserve
+#### 3. Install java on airflow-webserver and airflow-scheduler
 
 ```sh
-docker exec -it -u root airflow-webserver /bin/bash
+docker exec -u root -it [airflow-webserver/airflow-scheduler] bash
 apt update && apt install default-jdk
 ```
 

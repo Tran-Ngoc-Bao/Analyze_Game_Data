@@ -40,7 +40,7 @@ def extract_load(link, find_con, url_header, classification):
 	df.write.mode("overwrite").parquet("hdfs://namenode:9000/" + classification + "/" + run_time)
 
 if __name__ == "__main__":
-	sc = SparkContext("spark://spark-master:7077", "extract_load")
+	sc = SparkContext("spark://spark:7077", "extract_load")
 	spark = SparkSession(sc)
 
 	extract_load("https://play.google.com/store/games?device=phone", "/apps/details", "https://play.google.com", "google_play_phone")
