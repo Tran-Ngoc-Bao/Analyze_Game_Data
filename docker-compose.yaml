@@ -106,27 +106,6 @@ services:
     volumes:
       - hadoop_datanode:/hadoop/dfs/data
 
-  # Spark
-  spark:
-    image: spark
-    # build: ./spark
-    container_name: spark
-    environment:
-      - AWS_ACCESS_KEY_ID=admin
-      - AWS_SECRET_ACCESS_KEY=password
-      - AWS_REGION=us-east-1
-    ports:
-      - 8888:8888
-      - 8080:8080
-      - 10000:10000
-      - 10001:10001
-    networks:
-      game_data_net:
-    volumes:
-      - iceberg_warehouse:/home/iceberg/warehouse
-      - iceberg_notebooks:/home/iceberg/notebooks/notebooks
-      - ./spark/code:/home/iceberg/code
-
   # Other
   data-warehouse:
     image: postgres
@@ -166,7 +145,5 @@ volumes:
   hadoop_home:
   hadoop_namenode:
   hadoop_datanode:
-  iceberg_warehouse:
-  iceberg_notebooks:
   data-warehouse:
   superset_data:
