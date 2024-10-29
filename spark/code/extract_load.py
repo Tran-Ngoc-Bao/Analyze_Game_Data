@@ -1,5 +1,4 @@
 from pyspark.sql.session import SparkSession
-from pyspark.context import SparkContext
 from pyspark.sql.types import *
 import requests
 from bs4 import BeautifulSoup
@@ -44,4 +43,4 @@ if __name__ == "__main__":
 
 	extract_load("https://play.google.com/store/games?device=phone", "/apps/details", "https://play.google.com", "google_play_phone")
 	extract_load("https://play.google.com/store/games?device=tablet", "/apps/details", "https://play.google.com", "google_play_tablet")
-	extract_load("https://apps.apple.com/vn/genre/ios-tr%C3%B2-ch%C6%A1i/id6014?l=vi", "/vn/app/", "", "app_store")
+	# extract_load("https://apps.apple.com/vn/genre/ios-tr%C3%B2-ch%C6%A1i/id6014?l=vi", "/vn/app/", "", "app_store")

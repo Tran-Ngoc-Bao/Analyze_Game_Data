@@ -18,7 +18,7 @@ x-airflow-common:
     - airflow_logs:/opt/airflow/logs
     - airflow_plugins:/opt/airflow/plugins
     - airflow_scripts:/opt/airflow/scripts
-    - ./spark/code:/opt/aitflow/code
+    - ./spark/code:/opt/airflow/code
   user: "${AIRFLOW_UID:-50000}:${AIRFLOW_GID:-50000}"
   depends_on:
     postgres:
