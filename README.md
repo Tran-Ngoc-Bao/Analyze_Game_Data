@@ -32,22 +32,14 @@ docker build ./superset -t superset
 docker compose up -d
 ```
 
-#### 3. Install java on airflow-webserver similar with airflow-scheduler
-```sh
-docker exec -u root -it airflow-webserver bash
-```
-```sh
-apt update && apt install default-jdk
-```
+#### 3. Start DAG on Airflow cluster
 
-#### 4. Start DAG on Airflow cluster
-
-#### 5. Build enviroment Superset
+#### 4. Build enviroment Superset
 ```sh
 ./superset/bootstrap-superset.sh
 ```
   
-#### 6. Visualize data in Superset with SQLalchemy uri
+#### 5. Visualize data in Superset with SQLalchemy uri
 ```
 postgresql://datawarehouse:datawarehouse@data-warehouse:5432/datawarehouse
 ```
