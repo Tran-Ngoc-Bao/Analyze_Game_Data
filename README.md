@@ -39,7 +39,7 @@ docker compose up -d
 ./superset/bootstrap-superset.sh
 ```
   
-#### 5. Visualize data in Superset with SQLalchemy uri
+#### 5. Visualize data on Superset with SQLalchemy uri
 ```
 postgresql://datawarehouse:datawarehouse@data-warehouse:5432/datawarehouse
 ```

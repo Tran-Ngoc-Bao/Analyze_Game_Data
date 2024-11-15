@@ -1,4 +1,4 @@
-FROM apache/airflow:2.10.0
+FROM apache/airflow
 USER root
 RUN apt update
 RUN apt install -y default-jdk
