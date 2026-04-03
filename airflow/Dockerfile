@@ -1,6 +1,10 @@
-FROM apache/airflow
+ARG AIRFLOW_IMAGE_VERSION
+FROM apache/airflow:${AIRFLOW_IMAGE_VERSION}
+
 USER root
 RUN apt update
 RUN apt install -y default-jdk
+
 USER airflow
-RUN pip install pyspark
+ADD requirements.txt .
+RUN pip install -r requirements.txt

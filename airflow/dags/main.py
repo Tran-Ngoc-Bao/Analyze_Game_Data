@@ -1,5 +1,5 @@
 from airflow import DAG
-from airflow.operators.bash_operator import BashOperator # type: ignore
+from airflow.operators.bash import BashOperator # type: ignore
 from datetime import datetime, timedelta
 
 default_args = {
@@ -17,7 +17,7 @@ default_args = {
     # "end_date": datetime(2016, 1, 1),
 }
 
-dag = DAG("main", default_args = default_args, schedule_interval = timedelta(30))
+dag = DAG("main", default_args = default_args, schedule = timedelta(30))
 
 extract_load_task = BashOperator(
     task_id = "extract_load_task",

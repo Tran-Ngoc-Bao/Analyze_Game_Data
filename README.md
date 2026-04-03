@@ -16,30 +16,14 @@
   <img src="https://github.com/Tran-Ngoc-Bao/Analyze_Game_data/blob/master/pictures/design/DataFlow.png">
 
 ## Deploy system
-#### 1. Should pull and build images before
-```sh
-docker pull postgres bde2020/hadoop-namenode:2.0.0-hadoop3.2.1-java8 bde2020/hadoop-datanode:2.0.0-hadoop3.2.1-java8
-```
-```sh
-docker build ./airflow -t airflow
-```
-```sh
-docker build ./superset -t superset
-```
-
-#### 2. Start system
+#### 1. Start system
 ```sh
 docker compose up -d
 ```
 
-#### 3. Start DAG on Airflow cluster
-
-#### 4. Build enviroment Superset
-```sh
-./superset/bootstrap-superset.sh
-```
+#### 2. Start DAG on Airflow cluster
   
-#### 5. Visualize data on Superset with SQLalchemy uri
+#### 3. Visualize data on Superset with SQLalchemy uri
 ```
 postgresql://datawarehouse:datawarehouse@data-warehouse:5432/datawarehouse
 ```
